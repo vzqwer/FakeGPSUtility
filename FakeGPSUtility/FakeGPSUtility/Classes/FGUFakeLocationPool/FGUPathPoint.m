@@ -19,7 +19,13 @@ NSString *FGUTimeIntervalKey = @"TUSpeedtKey";
 @implementation FGUPathPoint
 
 - (instancetype)initWithLocation:(CLLocation *)location {
-    return [self initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+    return [self initWithCoordinate:location.coordinate
+                           altitude:location.altitude
+                 horizontalAccuracy:location.horizontalAccuracy
+                   verticalAccuracy:location.verticalAccuracy
+                             course:location.course
+                              speed:location.speed
+                          timestamp:location.timestamp];
 }
 
 #pragma mark NSCoding
