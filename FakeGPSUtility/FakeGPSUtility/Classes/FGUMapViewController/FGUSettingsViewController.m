@@ -139,8 +139,15 @@ typedef enum {
     }
     [SharedFakeLocationPool beginUpdatePath];
     for (NSDictionary *pointDict in pointsDicts) {
-        [SharedFakeLocationPool addLocationToPath:[[CLLocation alloc] initWithLatitude:[pointDict[@"latitude"] doubleValue]
-                                                                             longitude:[pointDict[@"longitude"] doubleValue]]];
+        CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake([pointDict[@"latitude"] doubleValue], [pointDict[@"longitude"] doubleValue])
+                                                             altitude:[pointDict[@"altitude"] doubleValue]
+                                                   horizontalAccuracy:[pointDict[@"horizontalAccuracy"] doubleValue]
+                                                     verticalAccuracy:[pointDict[@"verticalAccuracy"] doubleValue]
+                                                               course:[pointDict[@"course"] doubleValue]
+                                                                speed:[pointDict[@"speed"] doubleValue]
+                                                            timestamp:pointDict[@"timestamp"]];
+        
+        [SharedFakeLocationPool addLocationToPath:location];
     }
     [SharedFakeLocationPool finishUpdatePath];
 }
