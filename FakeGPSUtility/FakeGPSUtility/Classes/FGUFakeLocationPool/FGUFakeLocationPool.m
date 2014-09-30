@@ -229,13 +229,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FGUFakeLocationPool);
         }
         
         FGUPathPoint *endPoint = self.pathPoints[self.currentSegmentIndex];
-        [self setSimulatedLocationToLocation:endPoint fromLocation:self.lastPathPoint];
+        
+        FGUPathPoint *endPointWithNowTimestamp = [self pathPointWithNowTimestampFromPoint:endPoint];
+        
+        [self setSimulatedLocationToLocation:endPointWithNowTimestamp fromLocation:self.lastPathPoint];
         
         if (endPoint.timeInterval > 0.) {
             [self performSelector:_cmd withObject:nil afterDelay:endPoint.timeInterval];
         }
         
-        self.lastPathPoint = endPoint;
+        self.lastPathPoint = endPointWithNowTimestamp;
         self.currentSegmentIndex++;
         
         if (self.currentSegmentIndex >= [self.pathPoints count]) {
@@ -253,6 +256,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FGUFakeLocationPool);
 
 - (NSArray *)points {
     return [self.pathPoints copy];
+}
+
+- (FGUPathPoint*)pathPointWithNowTimestampFromPoint:(FGUPathPoint*)point
+{
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:point.coordinate
+                                                         altitude:point.altitude
+                                               horizontalAccuracy:point.horizontalAccuracy
+                                                 verticalAccuracy:point.verticalAccuracy
+                                                           course:point.course
+                                                            speed:point.speed
+                                                        timestamp:[NSDate date]];
+    return [[FGUPathPoint alloc] initWithLocation:location];
 }
 
 #pragma mark - explicit simulation control
