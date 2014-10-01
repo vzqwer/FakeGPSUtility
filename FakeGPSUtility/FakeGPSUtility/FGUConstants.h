@@ -23,7 +23,7 @@
 
 #else
 
-    #define USE_TEST_UTILITIES 0
+    #define USE_TEST_UTILITIES 1
 
 #endif
 
