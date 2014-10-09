@@ -39,7 +39,7 @@
 
 #else
 
-    #define USE_TEST_UTILITIES_LOCATION 0
+    #define USE_TEST_UTILITIES_LOCATION 1
     #define USE_MOTION_ON_UIWINDOW 0
 
 #endif
